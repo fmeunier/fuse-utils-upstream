@@ -532,6 +532,16 @@ dump_ulaplus( libspectrum_snap *snap )
 }
 
 static void
+dump_uspeech( libspectrum_snap *snap )
+{
+  if( !libspectrum_snap_uspeech_active( snap ) )
+    return;
+
+  printf( "\nuSpeech\n" );
+  printf( "uSpeech paged: %d\n", libspectrum_snap_uspeech_paged( snap ) );
+}
+
+static void
 dump_zxatasp( libspectrum_snap *snap )
 {
   libspectrum_byte *ram_page;
@@ -606,6 +616,7 @@ static const snap_periph_t periph_list[] = {
   { libspectrum_snap_dock_active, NULL, "Timex Dock cartridge" },
   { libspectrum_snap_ulaplus_active, dump_ulaplus, "ULAplus" },
   { libspectrum_snap_usource_active, NULL, "uSource" },
+  { libspectrum_snap_uspeech_active, dump_uspeech, "uSpeech" },
   { libspectrum_snap_zxatasp_active, dump_zxatasp, "ZXATASP" },
   { libspectrum_snap_zxcf_active, dump_zxcf, "ZXCF" },
   { libspectrum_snap_zxmmc_active, NULL, "ZXMMC" },
