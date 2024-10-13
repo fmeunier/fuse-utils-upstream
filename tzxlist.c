@@ -608,7 +608,7 @@ process_tape( char *filename )
 
 
     case LIBSPECTRUM_TAPE_BLOCK_MESSAGE:
-      printf("  Display for %d seconds\n",
+      printf("  Display for %d ms\n",
 	     libspectrum_tape_block_pause( block ) );
       /* Fall through */
 
