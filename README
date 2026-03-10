@@ -1,4 +1,4 @@
-The Fuse utilities version 1.4.3
+The Fuse utilities version 1.4.4
 ================================
 
 The Fuse utilities are a few tools which may be of occasional use when
@@ -66,4 +66,4 @@ of the released tarballs, you'll need to run `autogen.sh' before
 running 'configure' for the first time.
 
 Philip Kendall <philip-fuse@shadowmagic.org.uk>
-1st July, 2018
+10th March, 2026
