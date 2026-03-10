@@ -3,6 +3,7 @@
    Copyright (c) 2015 Sergio Baldovi
    Copyright (c) 2016 Gergely Szasz
    Copyright (c) 2017 Chris Born
+   Copyright (c) 2023 Luis Faria
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by

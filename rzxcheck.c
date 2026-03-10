@@ -1,6 +1,6 @@
 /* rzxcheck.c: Check the signature on an RZX file
    Copyright (c) 2002-2003 Philip Kendall
-   Copyright (c) 2015 Sergio Baldovi
+   Copyright (c) 2015-2021 Sergio Baldovi
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by

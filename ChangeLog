@@ -1,5 +1,13 @@
 2021-??-??  Philip Kendall  <philip-fuse@shadowmagic.org.uk>
 
+        * snapdump
+          * Add uSpeech block (Sergio Baldoví).
+
+        * tzxlist
+          * Consider loop blocks to calculate tape duration (Luis Faria;
+            thanks, Martin Garton).
+          * Fix description of TZX message blocks (Alberto Garcia).
+
         * rzxcheck
           * Remove double-free bug (Sergio Baldoví).
 
