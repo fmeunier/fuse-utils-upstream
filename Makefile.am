@@ -35,21 +35,22 @@ bin_PROGRAMS = createhdf \
 	       snap2tzx \
 	       snapconv \
 	       snapdump \
+	       tape2wav \
 	       tapeconv \
 	       tape2pulses \
 	       tzxlist
 
 if BUILD_AUDIOTOOLS
-bin_PROGRAMS += audio2tape tape2wav
+bin_PROGRAMS += audio2tape
 endif
 
 if BUILD_RZXCHECK
 bin_PROGRAMS += rzxcheck
 endif
 
-EXTRA_PROGRAMS = rzxcheck audio2tape tape2wav
+EXTRA_PROGRAMS = rzxcheck audio2tape
 
-AM_CPPFLAGS = $(LIBSPECTRUM_CFLAGS) $(AUDIOFILE_CFLAGS) $(GLIB_CFLAGS)
+AM_CPPFLAGS = $(LIBSPECTRUM_CFLAGS) $(GLIB_CFLAGS)
 
 createhdf_SOURCES = ide.c createhdf.c
 
@@ -117,11 +118,12 @@ audio2tape_SOURCES = audio2tape.cc importer/soundfile.cc importer/trigger.cc \
                      converter/getpulse1.cc converter/getpulse2.cc \
                      converter/getsync2.cc converter/romloader.cc \
                      converter/romloaderstate.cc utils.c
+audio2tape_CPPFLAGS = $(AM_CPPFLAGS) $(AUDIOFILE_CFLAGS)
 audio2tape_LDADD = $(LIBSPECTRUM_LIBS) $(AUDIOFILE_LIBS) \
                    compat/libcompatos.a
 
 tape2wav_SOURCES = tape2wav.c utils.c
-tape2wav_LDADD = $(LIBSPECTRUM_LIBS) $(AUDIOFILE_LIBS) \
+tape2wav_LDADD = $(LIBSPECTRUM_LIBS) \
                  compat/libcompatos.a
 
 tape2pulses_SOURCES = tape2pulses.c utils.c
