@@ -1,4 +1,14 @@
+2026-05-05  Fredrick Meunier  <fredm@spamcop.net>
+
+        * Version 1.4.5 released
+
+        * tape2wav
+          * Allow writing WAV files without libaudiofile (thanks, Andre
+            Leiradella) (Fredrick Meunier).
+
 2026-03-22  Philip Kendall  <philip-fuse@shadowmagic.org.uk>
+
+        * Version 1.4.4 released
 
         * snapdump
           * Add uSpeech block (Sergio Baldoví).
