@@ -6,13 +6,11 @@ on: [push, pull_request]
 
 jobs:
   libspectrum:
-    # Reuse libspectrum's build wokflow and artefact (all libs enabled, real glib)
+    # Build libspectrum locally (all libs enabled, real glib)
     name: "Libspectrum lib (MacOS)"
-    uses: arki55/fuse-libspectrum/.github/workflows/build_macos_sub.yml@arki55/github-workflows
+    uses: ./.github/workflows/build_libspectrum_macos_sub.yml
     with:
-      branch: arki55/github-workflows
       key: fuse-utils
-      # repo name is taken from var.LIBSPECTRUM_REPO
 
 
 #########################################
