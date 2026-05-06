@@ -1,5 +1,5 @@
-name: Fuse Utils For MacOS
-run-name: Build Fuse Utils for MacOS / ${{ github.actor }} /
+name: Fuse Utils For macOS
+run-name: Build Fuse Utils for macOS / ${{ github.actor }} /
 
 # Executed upon each commit pushed, merge commit in PR
 on: [push, pull_request]
@@ -7,14 +7,14 @@ on: [push, pull_request]
 jobs:
   libspectrum:
     # Build libspectrum locally (all libs enabled, real glib)
-    name: "Libspectrum lib (MacOS)"
+    name: "Libspectrum lib (macOS)"
     uses: ./.github/workflows/build_libspectrum_macos_sub.yml
     with:
       key: fuse-utils
 
 
 #########################################
-### SUPPORTED MacOS configurations ###
+### SUPPORTED macOS configurations ###
 #########################################
 
   # Default build without any configure params

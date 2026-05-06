@@ -1,0 +1,64 @@
+name: Windows release build
+run-name: Build Windows release / ${{ github.actor }} /
+
+on:
+  workflow_dispatch:
+    inputs:
+      libspectrum_tag:
+        type: string
+        required: false
+        default: ""
+        description: Libspectrum tag to build. Leave empty to use master from the canonical SourceForge repository.
+      fuse_utils_tag:
+        type: string
+        required: false
+        default: "latest"
+        description: Fuse Utils tag or branch to build. Use 'latest' for the default branch.
+
+jobs:
+  resolve-refs:
+    name: "Resolve source refs"
+    runs-on: ubuntu-latest
+    outputs:
+      libspectrum_ref: ${{ steps.resolve.outputs.libspectrum_ref }}
+      fuse_utils_ref: ${{ steps.resolve.outputs.fuse_utils_ref }}
+    steps:
+      - name: Resolve selected refs
+        id: resolve
+        run: |
+          if [ -n "${{ inputs.libspectrum_tag }}" ]; then
+            libspectrum_ref="refs/tags/${{ inputs.libspectrum_tag }}"
+          else
+            libspectrum_ref="master"
+          fi
+
+          if [ "${{ inputs.fuse_utils_tag }}" = "latest" ]; then
+            fuse_utils_ref=""
+          else
+            fuse_utils_ref="refs/tags/${{ inputs.fuse_utils_tag }}"
+          fi
+
+          echo "Libspectrum ref: ${libspectrum_ref}"
+          echo "libspectrum_ref=${libspectrum_ref}" >> "$GITHUB_OUTPUT"
+          echo "Fuse Utils ref: ${fuse_utils_ref}"
+          echo "fuse_utils_ref=${fuse_utils_ref}" >> "$GITHUB_OUTPUT"
+
+  libspectrum:
+    name: "Libspectrum (Windows)"
+    needs: [resolve-refs]
+    uses: ./.github/workflows/build_libspectrum_windows_sub.yml
+    with:
+      key: fuse-utils-release
+      libspectrum_ref: ${{ needs.resolve-refs.outputs.libspectrum_ref }}
+
+  utils:
+    name: "Fuse Utils Windows Release"
+    needs: [resolve-refs, libspectrum]
+    uses: ./.github/workflows/build_windows_sub.yml
+    with:
+      name: release
+      dependencies: ""
+      configure_params: ""
+      libspectrum_key: fuse-utils-release
+      upload_artifacts: true
+      ref: ${{ needs.resolve-refs.outputs.fuse_utils_ref }}
