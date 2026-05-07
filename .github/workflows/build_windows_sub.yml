@@ -185,6 +185,10 @@ jobs:
           missing=0
           while read -r file; do
             for dll in $(objdump -p "$file" 2>/dev/null | grep 'DLL Name' | sed 's/.*DLL Name: //'); do
+              dll_lc=$(echo "$dll" | tr '[:upper:]' '[:lower:]')
+              case "$dll_lc" in
+                kernel32.dll|user32.dll|gdi32.dll|advapi32.dll|shell32.dll|ole32.dll|oleaut32.dll|uuid.dll|ws2_32.dll|comdlg32.dll|winmm.dll|version.dll|msvcrt.dll|bcrypt.dll|ntdll.dll|shlwapi.dll|crypt32.dll|dbghelp.dll|psapi.dll|iphlpapi.dll|secur32.dll|setupapi.dll|imm32.dll|mpr.dll|winspool.drv|api-ms-win-*|ext-ms-*) continue ;;
+              esac
               test -f "$dist_dir/$dll" && continue
               found=0
               for searchdir in "$dist_dir" \

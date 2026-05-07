@@ -204,6 +204,10 @@ jobs:
             changed=0
             for file in $(find . -type f \( -name '*.exe' -o -name '*.dll' \) -print); do
               for dll in $(objdump -p "$file" 2>/dev/null | grep 'DLL Name' | sed 's/.*DLL Name: //'); do
+                dll_lc=$(echo "$dll" | tr '[:upper:]' '[:lower:]')
+                case "$dll_lc" in
+                  kernel32.dll|user32.dll|gdi32.dll|advapi32.dll|shell32.dll|ole32.dll|oleaut32.dll|uuid.dll|ws2_32.dll|comdlg32.dll|winmm.dll|version.dll|msvcrt.dll|bcrypt.dll|ntdll.dll|shlwapi.dll|crypt32.dll|dbghelp.dll|psapi.dll|iphlpapi.dll|secur32.dll|setupapi.dll|imm32.dll|mpr.dll|winspool.drv|api-ms-win-*|ext-ms-*) continue ;;
+                esac
                 test -f "./$dll" && continue
                 found=0
                 for searchdir in . ${CYGWIN_LIBDIR} /usr/local/i686-w64-mingw32/bin /usr/i686-w64-mingw32/sys-root/mingw/bin /usr/i686-w64-mingw32/sys-root/mingw/system32 /usr/local/i686-w64-mingw32/system32 /usr/i686-pc-mingw32/sys-root/mingw/bin /usr/i686-pc-mingw32/sys-root/mingw/system32; do
