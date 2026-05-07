@@ -35,32 +35,8 @@ install-win32: all
 	  fi; \
 	done
 #	Copy required DLLs from sysroot, following DLL dependencies recursively.
-	changed=1; \
-	while test $$changed -ne 0; do \
-	  changed=0; \
-	  for file in `find $(DESTDIR) -type f \( -name '*.exe' -o -name '*.dll' \) -print`; do \
-	    for dll in `$(OBJDUMP) -p "$$file" 2>/dev/null | grep 'DLL Name' | sed 's/.*DLL Name: //'`; do \
-	      dll_lc=`echo "$$dll" | tr '[:upper:]' '[:lower:]'`; \
-	      case "$$dll_lc" in \
-	        kernel32.dll|user32.dll|gdi32.dll|advapi32.dll|shell32.dll|ole32.dll|oleaut32.dll|uuid.dll|ws2_32.dll|comdlg32.dll|winmm.dll|version.dll|msvcrt.dll|bcrypt.dll|ntdll.dll|shlwapi.dll|crypt32.dll|dbghelp.dll|psapi.dll|iphlpapi.dll|secur32.dll|setupapi.dll|imm32.dll|mpr.dll|winspool.drv|api-ms-win-*|ext-ms-*) continue ;; \
-	      esac; \
-	      test -f "$(DESTDIR)/$$dll" && continue; \
-	      for searchdir in $(DESTDIR) \
-	                      /usr/i686-w64-mingw32/sys-root/mingw/bin \
-	                      /usr/i686-w64-mingw32/sys-root/mingw/system32 \
-	                      /usr/local/i686-w64-mingw32/bin \
-	                      /usr/local/i686-w64-mingw32/system32 \
-	                      /usr/i686-pc-mingw32/sys-root/mingw/bin \
-	                      /usr/i686-pc-mingw32/sys-root/mingw/system32; do \
-	        if test -f "$$searchdir/$$dll"; then \
-	          cp "$$searchdir/$$dll" $(DESTDIR)/; \
-	          changed=1; \
-	          break; \
-	        fi; \
-	      done; \
-	    done; \
-	  done; \
-	done
+#	Only scan shipped top-level binaries.
+	bash "$(top_srcdir)/compat/win32/check_win32_dll_deps.sh" "$(DESTDIR)"
 #	Get text files
 	for file in AUTHORS ChangeLog COPYING README; \
 	  do cp "$(top_srcdir)/$$file" "$(DESTDIR)/$$file.txt"; \
