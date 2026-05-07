@@ -39,12 +39,11 @@ jobs:
           brew install bash
           which -a bash
           bash --version
-          sudo sh -c 'echo /usr/local/bin/bash >> /etc/shells'
+          sudo sh -c 'echo /opt/homebrew/bin/bash >> /etc/shells'
 
           echo "Installing dependencies .."
           brew install \
             automake \
-            audiofile \
             bzip2 \
             libgcrypt \
             glib \
