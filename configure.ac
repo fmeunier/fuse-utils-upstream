@@ -59,6 +59,7 @@ dnl Check for host specific programs.
 case "$host_os" in
   mingw32*)
     AC_CHECK_TOOL([WINDRES], [windres])
+    AC_CHECK_TOOL([OBJDUMP], [objdump])
     AC_CHECK_PROGS([MAN2HTML], [man2html])
     AC_CHECK_PROGS([GROFF], [groff])
     AC_CHECK_PROGS([UNIX2DOS], [unix2dos])
