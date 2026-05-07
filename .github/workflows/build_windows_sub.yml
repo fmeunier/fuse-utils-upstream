@@ -176,10 +176,10 @@ jobs:
 
       - name: (11b) Verify DLL dependencies in distribution
         run: |
-          cd ${GITHUB_WORKSPACE}
-          dist_dir=$(ls -d *-win32 2>/dev/null | head -n 1)
-          test -n "$dist_dir" && test -d "$dist_dir" || { echo "ERROR: win32 distribution directory not found"; exit 1; }
-          bash ./compat/win32/check_win32_dll_deps.sh "$dist_dir"
+          repo_root=$(cygpath -u "${GITHUB_WORKSPACE}")
+          dist_dir=$(cd "${repo_root}" && ls -d *-win32 2>/dev/null | head -n 1)
+          test -n "$dist_dir" && test -d "${repo_root}/${dist_dir}" || { echo "ERROR: win32 distribution directory not found"; exit 1; }
+          bash "${repo_root}/compat/win32/check_win32_dll_deps.sh" "${repo_root}/${dist_dir}"
 
       - name: (12) Create distribution zip
         if: ${{ inputs.upload_artifacts }}
