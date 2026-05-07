@@ -24,14 +24,13 @@ on:
 jobs:
   build:
     name: Build Utils
-    runs-on: macos-26
+    runs-on: macos-latest
     timeout-minutes: 15
     defaults:
       run:
         shell: bash
     steps:
       - name: (1) Install dependencies
-        if: ${{ inputs.dependencies }}
         run: |
           echo "Inspect if brew installed .."
           brew doctor || true
