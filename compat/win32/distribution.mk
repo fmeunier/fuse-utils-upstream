@@ -34,14 +34,15 @@ install-win32: all
 	    cp "$(top_builddir)/$$file" $(DESTDIR); \
 	  fi; \
 	done
-#	Copy required DLLs from sysroot
-	list='$(bin_PROGRAMS)'; \
-	for file in $$list; do \
-	  if test -f "$(top_builddir)/.libs/$$file"; then \
-	    $(OBJDUMP) -p "$(top_builddir)/.libs/$$file" 2>/dev/null | \
-	    grep 'DLL Name' | sed 's/.*DLL Name: //' | while read dll; do \
-	      found=0; \
-	      for searchdir in /usr/i686-w64-mingw32/sys-root/mingw/bin \
+#	Copy required DLLs from sysroot, following DLL dependencies recursively.
+	changed=1; \
+	while test $$changed -ne 0; do \
+	  changed=0; \
+	  for file in `find $(DESTDIR) -type f \( -name '*.exe' -o -name '*.dll' \) -print`; do \
+	    for dll in `$(OBJDUMP) -p "$$file" 2>/dev/null | grep 'DLL Name' | sed 's/.*DLL Name: //'`; do \
+	      test -f "$(DESTDIR)/$$dll" && continue; \
+	      for searchdir in $(DESTDIR) \
+	                      /usr/i686-w64-mingw32/sys-root/mingw/bin \
 	                      /usr/i686-w64-mingw32/sys-root/mingw/system32 \
 	                      /usr/local/i686-w64-mingw32/bin \
 	                      /usr/local/i686-w64-mingw32/system32 \
@@ -49,12 +50,12 @@ install-win32: all
 	                      /usr/i686-pc-mingw32/sys-root/mingw/system32; do \
 	        if test -f "$$searchdir/$$dll"; then \
 	          cp "$$searchdir/$$dll" $(DESTDIR)/; \
-	          found=1; \
+	          changed=1; \
 	          break; \
 	        fi; \
 	      done; \
 	    done; \
-	  fi; \
+	  done; \
 	done
 #	Get text files
 	for file in AUTHORS ChangeLog COPYING README; \
