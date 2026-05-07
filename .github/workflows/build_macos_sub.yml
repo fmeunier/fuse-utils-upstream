@@ -84,6 +84,9 @@ jobs:
         run: |          
           .github/scripts/in_config.sh "The Fuse utils are ready to be compiled"
           .github/scripts/in_config.sh "zlib support: yes"
+          .github/scripts/in_config.sh "libjpeg support: yes"
+          .github/scripts/in_config.sh "libpng support: yes"
+          .github/scripts/in_config.sh "libgcrypt support: yes"
           .github/scripts/in_config.sh "libspectrum's internal GLib replacement: no"
 
       - name: (8) Make
