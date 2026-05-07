@@ -34,6 +34,9 @@ jobs:
     name: Build Utils
     runs-on: windows-latest
     timeout-minutes: 15
+    defaults:
+      run:
+        shell: bash.exe --login --norc -eo pipefail -o igncr '{0}'
     env:
       CYGWIN_NOWINPATH: 1
       
@@ -122,14 +125,12 @@ jobs:
           mkdir /usr/local/i686-w64-mingw32 || true
           tar --directory /usr/local/i686-w64-mingw32 -xvf libspectrum/libspectrum-installed-windows.tar
           echo "Done"
-        shell: C:\cygwin\bin\bash.exe --login --norc -eo pipefail -o igncr '{0}'
 
       - name: (7) Autogen.sh
         run: |
           cd ${GITHUB_WORKSPACE}
           echo "Running autogen.sh .."
           ./autogen.sh
-        shell: C:\cygwin\bin\bash.exe --login --norc -eo pipefail -o igncr '{0}'
 
       - name: (8) Configure for Windows
         run: |
@@ -142,7 +143,6 @@ jobs:
           --disable-static \
           ${{ inputs.configure_params }} \
           |& tee ./configure.out
-        shell: C:\cygwin\bin\bash.exe --login --norc -eo pipefail -o igncr '{0}'
 
       - name: (9) Verify output from configure
         # Most of the tested strings are common for all Windows builds
@@ -157,7 +157,6 @@ jobs:
           .github/scripts/in_config.sh "libaudiofile support: yes"
           .github/scripts/in_config.sh "libspectrum's internal GLib replacement: yes"
           
-        shell: C:\cygwin\bin\bash.exe --login --norc -eo pipefail -o igncr '{0}'
 
       - name: (10) Make
         run: |
@@ -165,7 +164,6 @@ jobs:
           
           echo "Running make .."
           make
-        shell: C:\cygwin\bin\bash.exe --login --norc -eo pipefail -o igncr '{0}'
 
       - name: (11) Install
         run: |
@@ -173,7 +171,6 @@ jobs:
           
           echo "Running make dist-win32-dir .."
           make install dist-win32-dir
-        shell: C:\cygwin\bin\bash.exe --login --norc -eo pipefail -o igncr '{0}'
 
       - name: (12) Create distribution zip
         if: ${{ inputs.upload_artifacts }}
@@ -185,7 +182,6 @@ jobs:
 
           echo "Distribution files:"
           ls -la *.zip *.sha1 2>/dev/null || echo "No zip files found"
-        shell: C:\cygwin\bin\bash.exe --login --norc -eo pipefail -o igncr '{0}'
 
       - name: (13) Upload artifacts
         if: ${{ inputs.upload_artifacts }}
