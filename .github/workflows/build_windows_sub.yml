@@ -98,6 +98,7 @@ jobs:
             gettext-devel \
             libtool \
             make \
+            zip \
             mingw64-i686-bzip2 \
             mingw64-i686-gcc-core \
             mingw64-i686-gcc-g++ \
