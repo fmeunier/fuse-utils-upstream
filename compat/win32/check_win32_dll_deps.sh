@@ -7,7 +7,12 @@ if [ -z "$root_dir" ] || [ ! -d "$root_dir" ]; then
   exit 1
 fi
 
-allowlist='kernel32.dll|user32.dll|gdi32.dll|advapi32.dll|shell32.dll|ole32.dll|oleaut32.dll|uuid.dll|ws2_32.dll|comdlg32.dll|winmm.dll|version.dll|msvcrt.dll|bcrypt.dll|ntdll.dll|shlwapi.dll|crypt32.dll|dbghelp.dll|psapi.dll|iphlpapi.dll|secur32.dll|setupapi.dll|imm32.dll|mpr.dll|winspool.drv|api-ms-win-*|ext-ms-*'
+is_system_dll() {
+  case "$1" in
+    kernel32.dll|user32.dll|gdi32.dll|advapi32.dll|shell32.dll|ole32.dll|oleaut32.dll|uuid.dll|ws2_32.dll|comdlg32.dll|winmm.dll|version.dll|msvcrt.dll|bcrypt.dll|ntdll.dll|shlwapi.dll|crypt32.dll|dbghelp.dll|psapi.dll|iphlpapi.dll|secur32.dll|setupapi.dll|imm32.dll|mpr.dll|winspool.drv|api-ms-win-*|ext-ms-*) return 0 ;;
+  esac
+  return 1
+}
 
 search_dirs=(
   "$root_dir"
@@ -35,9 +40,9 @@ while [ "$changed" -ne 0 ]; do
   while IFS= read -r file; do
     while IFS= read -r dll; do
       dll_lc=$(printf '%s' "$dll" | tr '[:upper:]' '[:lower:]')
-      case "$dll_lc" in
-        $allowlist) continue ;;
-      esac
+      if is_system_dll "$dll_lc"; then
+        continue
+      fi
 
       if [ -f "$root_dir/$dll" ]; then
         continue
