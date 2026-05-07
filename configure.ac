@@ -53,6 +53,7 @@ AC_DEFINE([FUSE_UTILS_RC_VERSION], [fuse_utils_rc_version],
 dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_CXX
+AC_PROG_RANLIB
 LT_INIT
 
 dnl Check for host specific programs.
