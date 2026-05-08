@@ -34,6 +34,14 @@ if [ -n "${WIN32_DLL_SEARCH_DIRS:-}" ]; then
   search_dirs+=("${extra_dirs[@]}")
 fi
 
+find_binaries() {
+  if [ "${WIN32_DLL_DEPS_SCAN_EXES:-1}" = 0 ]; then
+    find "$root_dir" -maxdepth 1 -type f -name '*.dll' -print
+  else
+    find "$root_dir" -maxdepth 1 -type f \( -name '*.exe' -o -name '*.dll' \) -print
+  fi
+}
+
 changed=1
 while [ "$changed" -ne 0 ]; do
   changed=0
@@ -65,7 +73,5 @@ while [ "$changed" -ne 0 ]; do
     done < <(
       objdump -p "$file" 2>/dev/null | grep 'DLL Name' | sed 's/.*DLL Name: //'
     )
-  done < <(
-    find "$root_dir" -maxdepth 1 -type f \( -name '*.exe' -o -name '*.dll' \) -print
-  )
+  done < <(find_binaries)
 done

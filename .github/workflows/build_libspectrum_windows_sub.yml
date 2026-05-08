@@ -203,6 +203,7 @@ jobs:
           cp -f .libs/libspectrum-*.dll .
 
           export WIN32_DLL_SEARCH_DIRS="${CYGWIN_LIBDIR:-}"
+          export WIN32_DLL_DEPS_SCAN_EXES=0
           repo_root=$(cygpath -u "${GITHUB_WORKSPACE}")
           bash "${repo_root}/compat/win32/check_win32_dll_deps.sh" "${repo_root}/${LIBSPECTRUM_DIR}"
 
